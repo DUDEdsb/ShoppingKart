@@ -58,7 +58,7 @@ $.get('/vendors', (data) => {
 
 
 function delClicked(id) {
-    console.log(id)
+    // console.log(id)
     $.ajax({
         url: '/products',
         type: 'DELETE',

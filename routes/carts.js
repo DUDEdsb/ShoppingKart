@@ -37,4 +37,23 @@ cartRoute.post('/',async(req,res)=>{
     }
 })
 
+cartRoute.delete('/',async(req,res)=>{
+    const record  = await Cart.destroy({
+        where: {
+            id: req.body.id
+        }
+    })
+    if(record == 0){
+        res.send({
+            success: false,
+            message:"error while deleting"
+        })
+    } else{
+        res.send({
+            success: true,
+            message: "deleted successfully"
+        })
+    }
+})
+
 module.exports = cartRoute;
