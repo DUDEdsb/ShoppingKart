@@ -54,13 +54,17 @@ function refreshProductList() {
     })
 }
 login = () => {
-    $.post('/users', {
-        name: $('#userInput').val()
-    }, (data) => {
-        sessionStorage.setItem('name', $('#userInput').val())
-        sessionStorage.setItem('id', data.userId)
-        updateHead();
-    })
+    if ($('#userInput').val() == null || $('#userInput').val() == '') {
+        alert('Name is required!');
+    } else {
+        $.post('/users', {
+            name: $('#userInput').val()
+        }, (data) => {
+            sessionStorage.setItem('name', $('#userInput').val())
+            sessionStorage.setItem('id', data.userId)
+            updateHead();
+        })
+    }
 }
 logout = () => {
     sessionStorage.removeItem('name')
