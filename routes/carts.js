@@ -24,16 +24,33 @@ cartRoute.get('/:uid', async (req,res)=>{
 });
 
 cartRoute.post('/',async(req,res)=>{
-    try{
-        const result = await Cart.create({
-            quantity: req.body.quantity,
-            cost: req.body.cost,
+    var prev = await Cart.findOne({
+        where:{
+            productId: req.body.productId,
             userId: req.body.userId,
-            productId: req.body.productId
-        })
-        res.send({success:true, data: result})
-    }catch(err){
-        res.send({success: false, error: err.message})
+        }
+    })
+    if(prev == null){
+        try{
+            const result = await Cart.create({
+                quantity: req.body.quantity,
+                cost: req.body.cost,
+                userId: req.body.userId,
+                productId: req.body.productId
+            })
+            res.send({success:true, data: result})
+        }catch(err){
+            res.send({success: false, error: err.message})
+        }
+    } else {
+        const newResult = Cart.update(
+            {quantity: req.body.quantity},{
+                where:{
+                    productId: req.body.productId,
+                    userId: req.body.userId
+                }
+            })
+            res.send({success:true, data: newResult, msg: 'Cart is Updated'})
     }
 })
 
